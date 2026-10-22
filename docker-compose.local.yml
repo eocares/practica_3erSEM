@@ -1,0 +1,5 @@
+# Prueba local (las 3 capas en una PC). En AWS cada servicio va en su propia EC2.
+services:
+  db:       { build: ./db, environment: { MSSQL_SA_PASSWORD: "Cafe_Pass123!" }, ports: ["1433:1433"] }
+  backend:  { build: ./backend, environment: { DB_HOST: db, DB_PASSWORD: "Cafe_Pass123!" }, depends_on: [db], ports: ["8080:8080"] }
+  frontend: { build: ./frontend, environment: { BACKEND_HOST: backend }, depends_on: [backend], ports: ["80:80"] }
